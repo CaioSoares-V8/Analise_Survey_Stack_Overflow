@@ -28,6 +28,8 @@ if selected == 'Home':
     st.title('Análise Survey Stack Overflow 2024')
     st.write('Com o avanço significativo dos Modelos de Inteligência Artificial LLM e o surgimento de diversas ferramentas que os utilizam, a empresa V8.Tech está interessada em incorporar algumas dessas soluções no dia a dia de seus colaboradores. Para tomar uma decisão mais assertiva sobre qual ferramenta adotar, foi solicitado que uma análise seja feita utilizando os registros de dados da pesquisa Survey Stack Overflow 2024, que em meio a tratativa de diversos assuntos relacionados a tecnologia, investigou o uso de IA entre profissionais de tecnologia e desenvolvimento, abordando questões como popularidade das ferramentas, confiabilidade e utilidade em tarefas mais complexas.')
 
+    st.write(survey_data.head())
+
 elif selected == 'Análise':
     st.title('Análise')
     st.write('Lorem ipsum dolor sit amet. Et error ipsam qui reprehenderit dolor qui deserunt quia a voluptatem tenetur aut labore modi et exercitationem veniam. Qui nesciunt quas vel modi quia non quos atque hic saepe consequatur cum tempore dolor. Eos temporibus blanditiis At corporis maxime est quia minus et voluptas excepturi At rerum explicabo.')
@@ -208,6 +210,26 @@ elif selected == 'Análise':
 
     st.divider()
 
+    # Linguagens mais utilizadas
+    st.write('Lorem ipsum dolor sit amet. Et error ipsam qui reprehenderit dolor qui deserunt quia a voluptatem tenetur aut labore modi et exercitationem veniam. Qui nesciunt quas vel modi quia non quos atque hic saepe consequatur cum tempore dolor. Eos temporibus blanditiis At corporis maxime est quia minus et voluptas excepturi At rerum explicabo.')
+
+    have_worked_language_results = {}
+    for i in have_worked_language.columns:
+        soma = have_worked_language[i].sum()
+        have_worked_language_results[i] = soma
+
+    total_worked = sum(have_worked_language_results.values())
+    have_worked_language_results = dict(sorted(have_worked_language_results.items(), key=lambda x: x[1], reverse=True)[:10])
+    languages = list(have_worked_language_results.keys())
+    usuarios = list(have_worked_language_results.values())
+
+    fig = px.bar(x=usuarios,
+                y=languages,
+                orientation='h',
+                labels={'x': 'Quantidade de usuários', 'y': 'Linguagens'},
+                title='Top 10 Linguagens de progamação mais utilizadas')
+    st.plotly_chart(fig)
+
 elif selected == 'Opiniões':
      # Opinião dos desenvolvedores
 
@@ -246,3 +268,4 @@ elif selected == 'Opiniões':
     selected_IA = st.selectbox('Selecione uma IA e veja as opiniões dos usuários dela', select_IA)
 
     opiniao_desenvolvedores(selected_IA)
+
