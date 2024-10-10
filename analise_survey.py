@@ -1,6 +1,5 @@
 import pandas as pd
 import streamlit as st
-import matplotlib.pyplot as plt
 from streamlit_option_menu import option_menu
 import plotly.express as px
 
@@ -17,7 +16,7 @@ with st.sidebar:
         options=["Home", "Análise", "Opiniões"],
         icons=["house", "graph-up", "chat-left-dots"], 
         menu_icon="list", 
-        default_index=1,
+        default_index=0,
         styles={
         "container": {"padding": "0!important", "background-color": "transparent"},
         "nav-link-selected": {"background-color": "#777777"}
@@ -26,12 +25,12 @@ with st.sidebar:
 
 if selected == 'Home':
     st.title('Análise Survey Stack Overflow 2024')
-    st.write('Com o avanço significativo dos Modelos de Inteligência Artificial LLM e o surgimento de diversas ferramentas que os utilizam, a empresa V8.Tech está interessada em incorporar algumas dessas soluções no dia a dia de seus colaboradores. Para tomar uma decisão mais assertiva sobre qual ferramenta adotar, foi solicitado que uma análise seja feita utilizando os registros de dados da pesquisa Survey Stack Overflow 2024, que em meio a tratativa de diversos assuntos relacionados a tecnologia, investigou o uso de IA entre profissionais de tecnologia e desenvolvimento, abordando questões como popularidade das ferramentas, confiabilidade e utilidade em tarefas mais complexas.')
-
-    st.write(survey_data.head())
+    st.subheader('Contexto')
+    st.write('Com o crescimento exponencial da Inteligência Artificial (IA) e seu impacto nas práticas de desenvolvimento de software, a pesquisa Stack Overflow 2024 fornece uma oportunidade única para entender como os profissionais de tecnologia estão adotando e utilizando ferramentas de IA em seus trabalhos. Este projeto visa analisar os dados da pesquisa para identificar tendências, preferências e insights sobre o uso de IA entre programadores de diferentes linguagens.')
+    st.write('Desenvolvido por Caio Viveiros')
 
 elif selected == 'Análise':
-    st.title('Análise')
+    st.title('Análise dos dados')
     st.write('Lorem ipsum dolor sit amet. Et error ipsam qui reprehenderit dolor qui deserunt quia a voluptatem tenetur aut labore modi et exercitationem veniam. Qui nesciunt quas vel modi quia non quos atque hic saepe consequatur cum tempore dolor. Eos temporibus blanditiis At corporis maxime est quia minus et voluptas excepturi At rerum explicabo.')
     st.divider()
 
@@ -230,37 +229,57 @@ elif selected == 'Análise':
                 title='Top 10 Linguagens de progamação mais utilizadas')
     st.plotly_chart(fig)
 
+    
+    dados_combinados = pd.concat([have_worked_ia[['ChatGPT', 'GitHub Copilot', 'Google Gemini', 'Bing AI', 'Visual Studio Intellicode']],
+                                have_worked_language[['JavaScript', 'HTML/CSS', 'SQL', 'Python', 'TypeScript']]],
+                                axis=1)
+
+    def usabilidade_por_linguagem(data, language):
+        language_users = data[data[language] == 1]
+        ia_counts = language_users[['ChatGPT', 'GitHub Copilot', 'Google Gemini', 'Bing AI', 'Visual Studio Intellicode']].sum()
+
+        return ia_counts
+
+    st.write('Lorem ipsum dolor sit amet. Et error ipsam qui reprehenderit dolor qui deserunt quia a voluptatem tenetur aut labore modi et exercitationem veniam. Qui nesciunt quas vel modi quia non quos atque hic saepe consequatur cum tempore dolor. Eos temporibus blanditiis At corporis maxime est quia minus et voluptas excepturi At rerum explicabo.')
+
+    linguagem_selecionada = st.selectbox("Selecione uma linguagem de programação:", ['JavaScript', 'HTML/CSS', 'SQL', 'Python', 'TypeScript'])
+
+    ia_usage = usabilidade_por_linguagem(dados_combinados, linguagem_selecionada)
+    st.write(f"IAs utilizadas por usuários que programam em {linguagem_selecionada}:")
+    st.bar_chart(ia_usage)
+
 elif selected == 'Opiniões':
      # Opinião dos desenvolvedores
+    st.write('Lorem ipsum dolor sit amet. Et error ipsam qui reprehenderit dolor qui deserunt quia a voluptatem tenetur aut labore modi et exercitationem veniam. Qui nesciunt quas vel modi quia non quos atque hic saepe consequatur cum tempore dolor. Eos temporibus blanditiis At corporis maxime est quia minus et voluptas excepturi At rerum explicabo.')
 
     def opiniao_desenvolvedores(selected_IA):
-        # Grupo por 'AISelect'
+        # AISelect
+        st.subheader(f'Você atualmente utiliza o {selected_IA} no seu processo de desenvolvimento?')
         resultado_AISelect = survey_data.groupby('AISelect')[selected_IA].sum().reset_index()
-        st.write(resultado_AISelect)
         fig_AISelect = px.bar(resultado_AISelect, x='AISelect', y=selected_IA, title='Opinião sobre AI Select')
         st.plotly_chart(fig_AISelect)
 
-        # Grupo por 'AISent'
+        # AISent
+        st.subheader(f'Quão favorável é sua opinião sobre o uso do {selected_IA} como parte do seu fluxo de trabalho em desenvolvimento?')
         resultado_AISent = survey_data.groupby('AISent')[selected_IA].sum().reset_index()
-        st.write(resultado_AISent)
         fig_AISent = px.bar(resultado_AISent, x='AISent', y=selected_IA, title='Opinião sobre AI Sentiment')
         st.plotly_chart(fig_AISent)
 
-        # Grupo por 'AIAcc'
+        # AIAcc
+        st.subheader(f'Quanto você confia na precisão dos resultados do {selected_IA}?')
         resultado_AIAcc = survey_data.groupby('AIAcc')[selected_IA].sum().reset_index()
-        st.write(resultado_AIAcc)
         fig_AIAcc = px.bar(resultado_AIAcc, x='AIAcc', y=selected_IA, title='Opinião sobre AI Accuracy')
         st.plotly_chart(fig_AIAcc)
 
-        # Grupo por 'AIComplex'
+        # AIComplex
+        st.subheader(f'Como você avalia o {selected_IA} na execução de tarefas complexas?')
         resultado_AIComplex = survey_data.groupby('AIComplex')[selected_IA].sum().reset_index()
-        st.write(resultado_AIComplex)
         fig_AIComplex = px.bar(resultado_AIComplex, x='AIComplex', y=selected_IA, title='Opinião sobre AI Complexity')
         st.plotly_chart(fig_AIComplex)
 
-        # Grupo por 'AIThreat'
+        # AIThreat
+        st.subheader(f'Você acredita que o {selected_IA} é uma ameaça para seu trabalho atual?')
         resultado_AIThreat = survey_data.groupby('AIThreat')[selected_IA].sum().reset_index()
-        st.write(resultado_AIThreat)
         fig_AIThreat = px.bar(resultado_AIThreat, x='AIThreat', y=selected_IA, title='Opinião sobre AI Threats')
         st.plotly_chart(fig_AIThreat)
 
