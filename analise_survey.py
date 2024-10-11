@@ -26,30 +26,31 @@ with st.sidebar:
 if selected == 'Home':
     st.title('Análise Survey Stack Overflow 2024')
     st.subheader('Contexto')
-    st.write('Com o crescimento exponencial da Inteligência Artificial (IA) e seu impacto nas práticas de desenvolvimento de software, a pesquisa Stack Overflow 2024 fornece uma oportunidade única para entender como os profissionais de tecnologia estão adotando e utilizando ferramentas de IA em seus trabalhos. Este projeto visa analisar os dados da pesquisa para identificar tendências, preferências e insights sobre o uso de IA entre programadores de diferentes linguagens.')
-    st.write('Desenvolvido por Caio Viveiros')
+    st.write('O Survey Stack Overflow é uma pesquisa anual realizada pela plataforma Stack Overflow, que coleta dados sobre desenvolvedores ao redor do mundo. Ela aborda temas como linguagens de programação, tecnologias, carreira, ferramentas, frameworks, ambientes de desenvolvimento, bem como tendências e desafios que os profissionais enfrentam. A pesquisa oferece insights sobre o perfil dos desenvolvedores, suas preferências tecnológicas, práticas de trabalho, e a adoção de novas tecnologias, como inteligência artificial. Esses dados são amplamente utilizados por empresas e a comunidade de tecnologia para entender tendências do mercado, melhorar produtos, e orientar decisões estratégicas.')
+    st.write('Com o crescimento exponencial da Inteligência Artificial (IA) e seu impacto nas práticas de desenvolvimento de software, a pesquisa fornece uma oportunidade única para entender como os profissionais de tecnologia estão adotando e utilizando ferramentas de IA em seus trabalhos. Este projeto visa analisar os dados da pesquisa para identificar tendências, preferências e insights sobre o uso de IA entre programadores de diferentes linguagens, faixas etárias, funções e paises.')
+    st.caption('Desenvolvido por Caio Soares')
 
 elif selected == 'Análise':
     st.title('Análise dos dados')
-    st.write('Lorem ipsum dolor sit amet. Et error ipsam qui reprehenderit dolor qui deserunt quia a voluptatem tenetur aut labore modi et exercitationem veniam. Qui nesciunt quas vel modi quia non quos atque hic saepe consequatur cum tempore dolor. Eos temporibus blanditiis At corporis maxime est quia minus et voluptas excepturi At rerum explicabo.')
+    st.write('Nesta análise, partimos dos registros brutos da pesquisa do Stack Overflow 2024, filtramos e tratamos os dados para garantir a relevância e a precisão da informação. Após esse processo, obtivemos um DataFrame final contendo 1.563.892 dados, distribuídos em 35.543 linhas e 44 colunas. A partir desse conjunto, exploramos a relação entre as linguagens de programação, funções de desenvolvimento, paises, faixas etárias, experiência profissional e o uso de ferramentas de inteligência artificial, destacando tendências no setor de tecnologia.')
     st.divider()
 
     # Porcentagem de utilização de IA
-    st.write('Lorem ipsum dolor sit amet. Et error ipsam qui reprehenderit dolor qui deserunt quia a voluptatem tenetur aut labore modi et exercitationem veniam. Qui nesciunt quas vel modi quia non quos atque hic saepe consequatur cum tempore dolor. Eos temporibus blanditiis At corporis maxime est quia minus et voluptas excepturi At rerum explicabo.')
+    st.write('Para otimizar o aproveitamento dos registros da pesquisa em nossa análise, optamos por utilizar apenas os dados dos usuários que relataram o uso de inteligência artificial em suas atividades (54,32%). Esse filtro nos permitiu focar nas respostas mais relevantes, garantindo que as tendências e insights gerados fossem diretamente relacionados à utilização de ferramentas IA.')
     valor = 35.543 # Usuários que relataram uso de IA na pesquisa
     total = 65.437 # Total de usuários (Dado retirado do DataFrame sem o tratamento de dados nulos)
     porcentagem_valor = (valor / total) * 100
     porcentagem_restante = 100 - porcentagem_valor
 
     total_uso_ia = pd.DataFrame({
-        'Categoria': ['Utilizam IA', 'Não utilizaram IA'],
+        'Categoria': ['Utilizaram IA', 'Não utilizaram IA'],
         'Porcentagem': [porcentagem_valor, porcentagem_restante]
     })
 
     fig = px.bar(total_uso_ia,
                 x='Categoria',
                 y='Porcentagem', 
-                title='Porcentagem de utilização de IA', 
+                title='Porcentagem de utilização de IA no último ano', 
                 labels={'Porcentagem': 'Porcentagem (%)'}, 
                 text='Porcentagem')
     fig.update_traces(texttemplate='%{text:.2f}%', textposition='outside')
@@ -57,7 +58,7 @@ elif selected == 'Análise':
     st.plotly_chart(fig)
 
     # Top 5 IAs mais utilizadas
-    st.write('Lorem ipsum dolor sit amet. Et error ipsam qui reprehenderit dolor qui deserunt quia a voluptatem tenetur aut labore modi et exercitationem veniam. Qui nesciunt quas vel modi quia non quos atque hic saepe consequatur cum tempore dolor. Eos temporibus blanditiis At corporis maxime est quia minus et voluptas excepturi At rerum explicabo.')
+    st.write('Iremos explorar as percepções dos desenvolvedores em relação às ferramentas de inteligência artificial, destacando agora três categorias gerais: as cinco IAs mais utilizadas no último ano, as cinco IAs que os desenvolvedores mais desejam utilizar no próximo ano e as cinco IAs que eles mais admiram. Essa abordagem permite uma visão abrangente sobre o cenário atual da IA no desenvolvimento de software, identificando quais ferramentas estão em uso, quais são as preferências futuras e quais soluções são consideradas admiráveis por sua inovação e eficácia.')
     
     have_worked_ia_results = {}
     for i in have_worked_ia.columns:
@@ -73,7 +74,7 @@ elif selected == 'Análise':
     fig = px.bar(x=ias,
                 y=porcentagens,
                 labels={'x': 'IA', 'y': 'Porcentagem (%)'},
-                title='Top 5 IAs mais utilizadas')
+                title='Top 5 IAs mais utilizadas no último ano')
     st.plotly_chart(fig)
 
     # Top 5 IAs que mais buscam trabalhar
@@ -91,7 +92,7 @@ elif selected == 'Análise':
     fig = px.bar(x=ias,
                 y=porcentagens,
                 labels={'x': 'IA', 'y': 'Porcentagem (%)'},
-                title='Top 5 IAs que mais buscam trabalhar')
+                title='Top 5 IAs que mais buscam trabalhar no próximo ano')
     st.plotly_chart(fig)
 
     # Top 5 IAs mais admiradas
@@ -115,7 +116,7 @@ elif selected == 'Análise':
     st.divider()
 
     # Top 10 participações de paises na Pesquisa
-    st.write('Lorem ipsum dolor sit amet. Et error ipsam qui reprehenderit dolor qui deserunt quia a voluptatem tenetur aut labore modi et exercitationem veniam. Qui nesciunt quas vel modi quia non quos atque hic saepe consequatur cum tempore dolor. Eos temporibus blanditiis At corporis maxime est quia minus et voluptas excepturi At rerum explicabo.')
+    st.write('Para complementar nossa análise, apresentamos um gráfico que destaca os principais países representados na pesquisa por quantidade de usuários, ilustrando a distribuição dos desenvolvedores que participaram do estudo.')
     resultado_paises = survey_data['Country'].value_counts().head(10).reset_index()
     resultado_paises.columns = ['Países', 'Usuários'] 
     resultado_paises['Países'] = resultado_paises['Países'].replace({
@@ -131,7 +132,7 @@ elif selected == 'Análise':
     st.plotly_chart(fig)
 
     # Top 10 Utilização de IA por Paises
-    st.write('Lorem ipsum dolor sit amet. Et error ipsam qui reprehenderit dolor qui deserunt quia a voluptatem tenetur aut labore modi et exercitationem veniam. Qui nesciunt quas vel modi quia non quos atque hic saepe consequatur cum tempore dolor. Eos temporibus blanditiis At corporis maxime est quia minus et voluptas excepturi At rerum explicabo.')
+    st.write('Uma das funcionalidades da nossa análise é a de selecionar uma ferramenta de inteligência artificial específica e permitir a visualização sobre quais países a utilizam com mais frequência. Essa abordagem permite identificar tendências regionais e reconhecer onde cada ferramenta é mais popular.')
     def utilizacao_por_pais(data, coluna):
         utilizacao_paises = data.groupby('Country')[coluna].sum().sort_values(ascending=False).head(10).reset_index()
         utilizacao_paises['Country'] = utilizacao_paises['Country'].replace({
@@ -153,7 +154,7 @@ elif selected == 'Análise':
     st.divider()
 
     # Utilização de IA por faixa etaria
-    st.write('Lorem ipsum dolor sit amet. Et error ipsam qui reprehenderit dolor qui deserunt quia a voluptatem tenetur aut labore modi et exercitationem veniam. Qui nesciunt quas vel modi quia non quos atque hic saepe consequatur cum tempore dolor. Eos temporibus blanditiis At corporis maxime est quia minus et voluptas excepturi At rerum explicabo.')
+    st.write('Realizamos uma comparação das cinco IAs mais utilizadas em relação às diferentes faixas etárias dos desenvolvedores. Essa análise nos permite entender como a adoção de ferramentas de inteligência artificial varia conforme a idade dos profissionais, revelando possíveis diferenças nas preferências e no nível de experiência com essas tecnologias.')
     
     resultado_faixa_etaria = survey_data.groupby('Age')[['ChatGPT', 'GitHub Copilot', 'Google Gemini', 'Bing AI', 'Visual Studio Intellicode']].sum().reset_index()
     resultado_long = resultado_faixa_etaria.melt(id_vars='Age', var_name='IA', value_name='Quantidade')
@@ -177,7 +178,7 @@ elif selected == 'Análise':
     st.divider()
 
      # Utilização de IA por tipo de desenvolvedor
-    st.write('Lorem ipsum dolor sit amet. Et error ipsam qui reprehenderit dolor qui deserunt quia a voluptatem tenetur aut labore modi et exercitationem veniam. Qui nesciunt quas vel modi quia non quos atque hic saepe consequatur cum tempore dolor. Eos temporibus blanditiis At corporis maxime est quia minus et voluptas excepturi At rerum explicabo.')
+    st.write('Estabelecemos uma relação entre as ferramentas de inteligência artificial e os diferentes tipos de desenvolvedores, como desenvolvedores front-end, back-end, full stack e de dados. Essa análise revela como as preferências por IAs variam conforme a especialização dos profissionais, destacando quais ferramentas são mais populares entre cada tipo de desenvolvedor. Selecione uma função específica e visualize quais IAs são mais utilizadas por profissionais dessa categoria.')
 
     resultado_funcao = survey_data.groupby('DevType')[['ChatGPT', 'GitHub Copilot', 'Google Gemini', 'Bing AI', 'Visual Studio Intellicode']].sum().reset_index()
     tipo_selecionado = st.selectbox('Selecione o tipo de desenvolvedor', survey_data['DevType'].unique())
@@ -193,7 +194,7 @@ elif selected == 'Análise':
     st.divider()
 
     # Utilização de IA por anos de experiencia
-    st.write('Lorem ipsum dolor sit amet. Et error ipsam qui reprehenderit dolor qui deserunt quia a voluptatem tenetur aut labore modi et exercitationem veniam. Qui nesciunt quas vel modi quia non quos atque hic saepe consequatur cum tempore dolor. Eos temporibus blanditiis At corporis maxime est quia minus et voluptas excepturi At rerum explicabo.')
+    st.write('Analisamos a relação entre a utilização de ferramentas de inteligência artificial e os anos de experiência profissional dos desenvolvedores. Essa abordagem nos permite observar como a adoção de IAs varia de acordo com o nível de experiência, identificando quais ferramentas são mais utilizadas por profissionais iniciantes em comparação com aqueles com mais anos de atuação no setor')
 
     resultado_code_pro = survey_data.groupby('YearsCodePro')[['ChatGPT', 'GitHub Copilot', 'Google Gemini', 'Bing AI', 'Visual Studio Intellicode']].sum().reset_index()
     resultado_long = resultado_code_pro.melt(id_vars='YearsCodePro', var_name='IA', value_name='Quantidade')
@@ -210,7 +211,7 @@ elif selected == 'Análise':
     st.divider()
 
     # Linguagens mais utilizadas
-    st.write('Lorem ipsum dolor sit amet. Et error ipsam qui reprehenderit dolor qui deserunt quia a voluptatem tenetur aut labore modi et exercitationem veniam. Qui nesciunt quas vel modi quia non quos atque hic saepe consequatur cum tempore dolor. Eos temporibus blanditiis At corporis maxime est quia minus et voluptas excepturi At rerum explicabo.')
+    st.write('Apresentamos agora um gráfico que ilustra as 10 linguagens de programação mais utilizadas pelos desenvolvedores participantes da pesquisa. Essa visualização nos permite, no futuro, comparar essas linguagens com as preferências dos profissionais em relação às ferramentas de inteligência artificial, oferecendo insights sobre como as escolhas de programação podem influenciar a adoção de IAs no setor.')
 
     have_worked_language_results = {}
     for i in have_worked_language.columns:
@@ -219,14 +220,16 @@ elif selected == 'Análise':
 
     total_worked = sum(have_worked_language_results.values())
     have_worked_language_results = dict(sorted(have_worked_language_results.items(), key=lambda x: x[1], reverse=True)[:10])
+    percentages = [soma / total_worked * 100 for soma in have_worked_language_results.values()]
     languages = list(have_worked_language_results.keys())
-    usuarios = list(have_worked_language_results.values())
+    usuarios_percent = percentages
 
-    fig = px.bar(x=usuarios,
+    fig = px.bar(x=usuarios_percent,
                 y=languages,
                 orientation='h',
-                labels={'x': 'Quantidade de usuários', 'y': 'Linguagens'},
-                title='Top 10 Linguagens de progamação mais utilizadas')
+                labels={'x': 'Porcentagem de usuários (%)', 'y': 'Linguagens'},
+                title='Top 10 Linguagens de Programação mais utilizadas')
+
     st.plotly_chart(fig)
 
     
@@ -240,7 +243,7 @@ elif selected == 'Análise':
 
         return ia_counts
 
-    st.write('Lorem ipsum dolor sit amet. Et error ipsam qui reprehenderit dolor qui deserunt quia a voluptatem tenetur aut labore modi et exercitationem veniam. Qui nesciunt quas vel modi quia non quos atque hic saepe consequatur cum tempore dolor. Eos temporibus blanditiis At corporis maxime est quia minus et voluptas excepturi At rerum explicabo.')
+    st.write('Disponibilizamos a funcionalidade de selecionar uma linguagem de programação específica e visualizar a adoção de ferramentas de inteligência artificial associadas a ela. Essa funcionalidade permite que os usuários explorem como a preferência por uma linguagem pode impactar a escolha das IAs utilizadas, oferecendo uma compreensão mais profunda das interações entre linguagens de programação e tecnologias de inteligência artificial no ambiente de desenvolvimento.')
 
     linguagem_selecionada = st.selectbox("Selecione uma linguagem de programação:", ['JavaScript', 'HTML/CSS', 'SQL', 'Python', 'TypeScript'])
 
@@ -250,7 +253,8 @@ elif selected == 'Análise':
 
 elif selected == 'Opiniões':
      # Opinião dos desenvolvedores
-    st.write('Lorem ipsum dolor sit amet. Et error ipsam qui reprehenderit dolor qui deserunt quia a voluptatem tenetur aut labore modi et exercitationem veniam. Qui nesciunt quas vel modi quia non quos atque hic saepe consequatur cum tempore dolor. Eos temporibus blanditiis At corporis maxime est quia minus et voluptas excepturi At rerum explicabo.')
+    st.title('Opiniões dos desenvolvedores')
+    st.write('Nesta seção dedicada às opiniões dos usuários, apresentamos de forma gráfica as experiências e feedbacks sobre a ferramenta de inteligência artificial selecionada. Isso nos proporciona uma compreensão mais profunda da usabilidade, eficácia, precisão, limitações e impacto dessa IA em seus projetos. As respostas  da pesquisa oferecem insights valiosos que podem orientar a escolha da ferramenta mais adequada, além de destacar áreas que necessitam de melhorias e os desafios potenciais enfrentados durante a utilização.')
 
     def opiniao_desenvolvedores(selected_IA):
         # AISelect
