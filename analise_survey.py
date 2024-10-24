@@ -2,6 +2,16 @@ import pandas as pd
 import streamlit as st
 from streamlit_option_menu import option_menu
 import plotly.express as px
+from sqlalchemy import create_engine
+
+server = 'localhost'
+database = 'analise_survey'
+username = 'sa'
+password = '#Gf24480092870'
+
+conexao = f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver=ODBC+Driver+17+for+SQL+Server'
+
+engine = create_engine(conexao)
 
 survey_data = pd.read_csv('https://raw.githubusercontent.com/CaioSoares-V8/Analise_Survey_Stack_Overflow/refs/heads/main/data/survey_data.csv')
 have_worked_ia = pd.read_csv('https://raw.githubusercontent.com/CaioSoares-V8/Analise_Survey_Stack_Overflow/refs/heads/main/data/have_worked_ia.csv')
@@ -46,6 +56,8 @@ elif selected == 'Análise':
         'Categoria': ['Utilizaram IA', 'Não utilizaram IA'],
         'Porcentagem': [porcentagem_valor, porcentagem_restante]
     })
+
+    total_uso_ia.to_sql('total_uso_ia', engine, if_exists='replace', index=True)
 
     fig = px.bar(total_uso_ia,
                 x='Categoria',
